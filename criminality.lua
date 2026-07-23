@@ -603,10 +603,7 @@ return function(receivedKey)
         CurrentValue = false, 
         Callback = function(v) 
             S.Fullbright_Enabled = v 
-            if v then
-                Lighting.Ambient = Color3.fromRGB(255, 255, 255)
-                Lighting.Brightness = 2
-            else
+            if not v then
                 Lighting.Ambient = OriginalAmbient
                 Lighting.Brightness = OriginalBrightness
             end
@@ -619,14 +616,6 @@ return function(receivedKey)
             S.Door_Noclip_Enabled = v 
             UpdateAllDoors()
         end 
-    })
-
-    ColorTab:CreateSection("FOV Color")
-    ColorTab:CreateColorPicker({
-        Name = "FOV Circle",
-        Color = Color3.fromRGB(255, 255, 255),
-        Flag = "FOVColorpicker",
-        Callback = function(v) S.FOV_Color = v end
     })
 
     ColorTab:CreateSection("Player ESP Colors")
@@ -699,6 +688,15 @@ return function(receivedKey)
             FOVCircle.Position = mousePos
             FOVCircle.Radius = S.Aim_FOV
             FOVCircle.Color = S.FOV_Color
+        end
+
+        if S.Fullbright_Enabled then
+            if Lighting.Ambient ~= Color3.fromRGB(255, 255, 255) then
+                Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+            end
+            if Lighting.Brightness ~= 2 then
+                Lighting.Brightness = 2
+            end
         end
 
         table.clear(Drawn_This_Frame)
